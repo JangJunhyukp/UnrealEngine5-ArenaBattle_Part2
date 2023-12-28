@@ -18,6 +18,37 @@ AABPlayerController::AABPlayerController()
 	}
 }
 
+void AABPlayerController::PostInitializeComponents()
+{
+	AB_LOG(LogABNetwork, Log, TEXT("%s"), TEXT("Begin"));
+
+	Super::PostInitializeComponents();
+
+	AB_LOG(LogABNetwork, Log, TEXT("%s"), TEXT("End"));
+}
+
+void AABPlayerController::PostNetInit()
+{
+	AB_LOG(LogABNetwork, Log, TEXT("%s"), TEXT("Begin"));
+
+	Super::PostNetInit();
+
+	UNetDriver* NetDriver = GetNetDriver();
+	if (NetDriver)
+	{
+		if (NetDriver->ServerConnection)
+		{
+			AB_LOG(LogABNetwork, Log, TEXT("Server Connection: %s"), *NetDriver->ServerConnection->GetName());
+		}
+	}
+	else
+	{
+		AB_LOG(LogABNetwork, Log, TEXT("%s"), TEXT("No NetDriver"));
+	}
+
+	AB_LOG(LogABNetwork, Log, TEXT("%s"), TEXT("End"));
+}
+
 void AABPlayerController::BeginPlay()
 {
 	AB_LOG(LogABNetwork, Log, TEXT("%s"), TEXT("Begin"));
@@ -28,4 +59,13 @@ void AABPlayerController::BeginPlay()
 
 	FInputModeGameOnly GameOnlyInputMode;
 	SetInputMode(GameOnlyInputMode);
+}
+
+void AABPlayerController::OnPossess(APawn* InPawn)
+{
+	AB_LOG(LogABNetwork, Log, TEXT("%s"), TEXT("Begin"));
+
+	Super::OnPossess(InPawn);
+
+	AB_LOG(LogABNetwork, Log, TEXT("%s"), TEXT("End"));
 }
